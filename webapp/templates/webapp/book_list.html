@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book List</title>
+    <style>
+        /* Add your CSS styling here */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Book List</h2>
+    <a href="{% url 'book_create' %}">Add New Book</a>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Publisher ID</th>
+            <th>Publication Date</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author.name }}</td>
+            <td>{{ book.isbn }}</td>
+            <td>{{ book.publisher_id }}</td>
+            <td>{{ book.publication_date }}</td>
+            <td><a href="{% url 'book_edit' book.pk %}">Edit</a></td>
+            <td><a href="{% url 'book_delete' book.pk %}" onclick="return confirm('Are you sure?');">Delete</a></td>
+            <a href="{% url 'author_list' %}">Authors List</a>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">No books available.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+
