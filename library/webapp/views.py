@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book
 from .forms import BookForm
 from .models import Author
+from .forms import AuthorForm
 
 # Create your views here.
 
@@ -45,3 +46,13 @@ def book_delete(request, pk):
 def author_list(request):
     authors = Author.objects.all()
     return render(request, 'webapp/author_list.html', {'authors': authors})
+
+def add_author(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('author_list')  # Redirect to the author list page after saving
+    else:
+        form = AuthorForm()  # An empty, unbound form
+    return render(request, 'webapp/add_author.html', {'form': form})

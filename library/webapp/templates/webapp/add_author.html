@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Author</title>
+</head>
+<body>
+    <h2>Add New Author</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Author</button>
+    </form>
+    <a href="{% url 'author_list' %}">Back to Author List</a>
+</body>
+</html>
