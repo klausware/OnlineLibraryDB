@@ -46,6 +46,21 @@
         </tr>
         {% endfor %}
     </table>
+    <form method="get">
+        <label for="author_name">Search by Author:</label>
+        <input type="text" id="author_name" name="author_name" placeholder="Author's name">
+    
+        <label for="book_title">Search by Title:</label>
+        <input type="text" id="book_title" name="book_title" placeholder="Book title">
+    
+        <label for="pub_date_before">Published before:</label>
+        <input type="date" id="pub_date_before" name="pub_date_before">
+    
+        <label for="pub_date_after">Published after:</label>
+        <input type="date" id="pub_date_after" name="pub_date_after">
+    
+        <button type="submit">Search</button>
+    </form>    
 </body>
 </html>
 

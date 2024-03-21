@@ -10,6 +10,25 @@ from .forms import AuthorForm
 # Read operation: List all books
 def book_list(request):
     books = Book.objects.all()
+
+    # Search by Author
+    author_name = request.GET.get('author_name')
+    if author_name:
+        books = books.filter(author__name__icontains=author_name)
+
+    # Search by Title
+    book_title = request.GET.get('book_title')
+    if book_title:
+        books = books.filter(title__icontains=book_title)
+
+    # Filter by Publication Date
+    pub_date_before = request.GET.get('pub_date_before')
+    pub_date_after = request.GET.get('pub_date_after')
+    if pub_date_before:
+        books = books.filter(publication_date__lte=pub_date_before)
+    if pub_date_after:
+        books = books.filter(publication_date__gte=pub_date_after)
+        
     return render(request, 'webapp/book_list.html', {'books': books})
 
 # Create operation: Add a new book
