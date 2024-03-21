@@ -9,6 +9,13 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
+class Genre(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    
+    def __str__(self):
+        return self.name
     
 class Book(models.Model):
     title = models.CharField(max_length=255)
@@ -16,9 +23,13 @@ class Book(models.Model):
     isbn = models.CharField(max_length=20)
     publisher_id = models.IntegerField()  # Consider updating this similarly in the future
     publication_date = models.DateField()
+    genres = models.ManyToManyField(Genre, related_name='books')
 
     def __str__(self):
         return self.title
+    
+
+
 
 
 
