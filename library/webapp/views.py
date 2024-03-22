@@ -6,6 +6,12 @@ from .models import Author
 from .forms import AuthorForm
 from .models import Member
 from .forms import MemberForm
+from .forms import Borrowing
+from .forms import BorrowingForm
+from .forms import Review
+from .forms import ReviewForm
+from .forms import Publisher
+from .forms import PublisherForm
 
 # Create your views here.
 
@@ -102,3 +108,48 @@ def edit_member(request, pk):
     else:
         form = MemberForm(instance=member)
     return render(request, 'webapp/edit_member.html', {'form': form})
+
+
+def borrowing_list(request):
+    borrowings = Borrowing.objects.all()
+    return render(request, 'webapp/borrowing_list.html', {'borrowings': borrowings})
+
+def add_borrowing(request):
+    if request.method == 'POST':
+        form = BorrowingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('borrowing_list')
+    else:
+        form = BorrowingForm()
+    return render(request, 'webapp/add_borrowing.html', {'form': form})
+
+def review_list(request):
+    reviews = Review.objects.all()
+    return render(request, 'webapp/review_list.html', {'reviews': reviews})
+
+def add_review(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('review_list')
+    else:
+        form = ReviewForm()
+    return render(request, 'webapp/add_review.html', {'form': form})
+
+def publisher_list(request):
+    publishers = Publisher.objects.all()
+    return render(request, 'webapp/publisher_list.html', {'publishers': publishers})
+
+def add_publisher(request):
+    if request.method == 'POST':
+        form = PublisherForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('publisher_list')
+    else:
+        form = PublisherForm()
+    return render(request, 'webapp/add_publisher.html', {'form': form})
+
+# Add an edit_publisher view if needed

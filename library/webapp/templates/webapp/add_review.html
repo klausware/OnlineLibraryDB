@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Review</title>
+</head>
+<body>
+    <h2>Add New Review</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Review</button>
+    </form>
+    <br>
+    <a href="{% url 'review_list' %}">Back to Review List</a>
+</body>
+</html>

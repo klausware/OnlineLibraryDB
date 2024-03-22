@@ -11,5 +11,11 @@ urlpatterns = [
     path('members/', views.member_list, name='member_list'),
     path('members/add/', views.add_member, name='add_member'),
     path('members/edit/<int:pk>/', views.edit_member, name='edit_member'),
+    path('borrowings/', views.borrowing_list, name='borrowing_list'),
+    path('borrowings/add/', views.add_borrowing, name='add_borrowing'),
+    path('reviews/', views.review_list, name='review_list'),
+    path('reviews/add/', views.add_review, name='add_review'),
+    path('publishers/', views.publisher_list, name='publisher_list'),
+    path('publishers/add/', views.add_publisher, name='add_publisher'),
 
 ]

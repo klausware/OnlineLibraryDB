@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Publisher List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Publisher List</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Website</th>
+        </tr>
+        {% for publisher in publishers %}
+        <tr>
+            <td>{{ publisher.id }}</td>
+            <td>{{ publisher.name }}</td>
+            <td>{{ publisher.address }}</td>
+            <td><a href="{{ publisher.website }}">{{ publisher.website }}</a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No publishers available.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'add_publisher' %}">Add New Publisher</a>
+    <br>
+    <a href="{% url 'book_list' %}">Back to Book List</a>
+</body>
+</html>

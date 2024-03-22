@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Borrowing List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Borrowing List</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Book Title</th>
+            <th>Member Name</th>
+            <th>Borrow Date</th>
+            <th>Return Date</th>
+        </tr>
+        {% for borrowing in borrowings %}
+        <tr>
+            <td>{{ borrowing.id }}</td>
+            <td>{{ borrowing.book.title }}</td>
+            <td>{{ borrowing.member.name }}</td>
+            <td>{{ borrowing.borrow_date|date:"Y-m-d" }}</td>
+            <td>{% if borrowing.return_date %}{{ borrowing.return_date|date:"Y-m-d" }}{% else %}Currently Checked Out{% endif %}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No borrowings available.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'add_borrowing' %}">Add New Borrowing</a>
+    <br>
+    <a href="{% url 'book_list' %}">Back to Book List</a>
+</body>
+</html>

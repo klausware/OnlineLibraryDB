@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Borrowing</title>
+</head>
+<body>
+    <h2>Add New Borrowing</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Borrowing</button>
+    </form>
+    <br>
+    <a href="{% url 'borrowing_list' %}">Back to Borrowing List</a>
+</body>
+</html>

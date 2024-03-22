@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Review List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Review List</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Book Title</th>
+            <th>Member Name</th>
+            <th>Rating</th>
+            <th>Text</th>
+            <th>Date</th>
+        </tr>
+        {% for review in reviews %}
+        <tr>
+            <td>{{ review.id }}</td>
+            <td>{{ review.book.title }}</td>
+            <td>{{ review.member.name }}</td>
+            <td>{{ review.rating }}</td>
+            <td>{{ review.text }}</td>
+            <td>{{ review.created_at|date:"Y-m-d H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No reviews available.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'add_review' %}">Add New Review</a>
+    <br>
+    <a href="{% url 'book_list' %}">Back to Book List</a>
+</body>
+</html>

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 class Author(models.Model):
     name = models.CharField(max_length=255)
@@ -38,9 +39,31 @@ class Book(models.Model):
         return self.title
     
 
+class Borrowing(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='borrowings')
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='borrowings')
+    borrow_date = models.DateField(default=date.today)
+    return_date = models.DateField(null=True, blank=True)  # Null allowed for books not yet returned
 
+    def __str__(self):
+        return f"{self.book.title} borrowed by {self.member.name}"
 
+class Review(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews')
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.IntegerField()  # Assuming a rating out of 5 for simplicity
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"Review by {self.member.name} on {self.book.title}"
 
+class Publisher(models.Model):
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255, blank=True)
+    website = models.URLField(blank=True)
+    
+    def __str__(self):
+        return self.name
 
 
