@@ -1,6 +1,7 @@
 from django import forms
 from .models import Book
 from .models import Author
+from .models import Member
 
 class BookForm(forms.ModelForm):
     class Meta:
@@ -12,3 +13,7 @@ class AuthorForm(forms.ModelForm):
         model = Author
         fields = ['name', 'short_bio', 'authored_books']
 
+class MemberForm(forms.ModelForm):
+    class Meta:
+        model = Member
+        fields = ['name', 'email', 'library_card_number']  

@@ -4,6 +4,8 @@ from .models import Book
 from .forms import BookForm
 from .models import Author
 from .forms import AuthorForm
+from .models import Member
+from .forms import MemberForm
 
 # Create your views here.
 
@@ -28,7 +30,7 @@ def book_list(request):
         books = books.filter(publication_date__lte=pub_date_before)
     if pub_date_after:
         books = books.filter(publication_date__gte=pub_date_after)
-        
+
     return render(request, 'webapp/book_list.html', {'books': books})
 
 # Create operation: Add a new book
@@ -75,3 +77,28 @@ def add_author(request):
     else:
         form = AuthorForm()  # An empty, unbound form
     return render(request, 'webapp/add_author.html', {'form': form})
+
+def member_list(request):
+    members = Member.objects.all()
+    return render(request, 'webapp/member_list.html', {'members': members})
+
+def add_member(request):
+    if request.method == 'POST':
+        form = MemberForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('member_list')  # Assuming you have a member_list view
+    else:
+        form = MemberForm()
+    return render(request, 'webapp/add_member.html', {'form': form})
+
+def edit_member(request, pk):
+    member = get_object_or_404(Member, pk=pk)
+    if request.method == 'POST':
+        form = MemberForm(request.POST, instance=member)
+        if form.is_valid():
+            form.save()
+            return redirect('member_list')
+    else:
+        form = MemberForm(instance=member)
+    return render(request, 'webapp/edit_member.html', {'form': form})

@@ -17,6 +17,15 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
     
+class Member(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.EmailField(unique=True)
+    library_card_number = models.CharField(max_length=50, unique=True)
+    join_date = models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name
+    
 class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, default=1, related_name='books')  # Changed from author_id
