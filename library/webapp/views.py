@@ -12,6 +12,7 @@ from .forms import Review
 from .forms import ReviewForm
 from .forms import Publisher
 from .forms import PublisherForm
+from .models import CombinedBookDetails
 
 # Create your views here.
 
@@ -152,4 +153,8 @@ def add_publisher(request):
         form = PublisherForm()
     return render(request, 'webapp/add_publisher.html', {'form': form})
 
-# Add an edit_publisher view if needed
+# VIEWS
+
+def combined_book_list(request):
+    combined_books = CombinedBookDetails.objects.all()
+    return render(request, 'webapp/combined_book_list.html', {'combined_books': combined_books})

@@ -67,3 +67,17 @@ class Publisher(models.Model):
         return self.name
 
 
+# VIEWS
+
+class CombinedBookDetails(models.Model):
+    book_id = models.AutoField(primary_key=True)
+    book_title = models.CharField(max_length=255)
+    author_name = models.CharField(max_length=255)
+    publisher_name = models.CharField(max_length=255)
+    average_rating = models.FloatField()
+
+    class Meta:
+        managed = False  # No database table creation or deletion operations will be performed for this model.
+        db_table = 'CombinedBookDetails'  # The name of the view in your database
+
+
