@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Borrowers and Reviews</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Borrowers and Reviews (View)</h2>
+    <table>
+        <tr>
+            <th>Book Title</th>
+            <th>Recent Borrowers</th>
+            <th>Review</th>
+            <th>Rating</th>
+        </tr>
+        {% for book_review in books_reviews %}
+            <tr>
+                <td>{{ book_review.book_title }}</td>
+                <td>{{ book_review.recent_borrowers | default:"None" }}</td> <!-- 'default' tag is used to display 'None' if no borrowers -->
+                <td>{{ book_review.review | default:"None" }}</td> <!-- Same here for reviews -->
+                <td>{{ book_review.rating | default:"None" }}</td> <!-- And here for ratings -->
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">No book information available.</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'book_list' %}">Back to Book List</a>
+</body>
+</html>

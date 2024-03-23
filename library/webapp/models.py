@@ -81,3 +81,13 @@ class CombinedBookDetails(models.Model):
         db_table = 'CombinedBookDetails'  # The name of the view in your database
 
 
+class BookBorrowingReview(models.Model):
+    book_id = models.AutoField(primary_key=True)
+    book_title = models.CharField(max_length=255)
+    recent_borrowers = models.CharField(max_length=255)
+    review = models.TextField(null=True, blank=True)
+    rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)
+
+    class Meta:
+        managed = False  # Ensures Django doesn't try to create a table for this model.
+        db_table = 'recentborrowings'  # The name of your SQL view.
