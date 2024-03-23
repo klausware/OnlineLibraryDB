@@ -1,5 +1,6 @@
 #from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db import OperationalError, transaction
 from .models import Book
 from .forms import BookForm
 from .models import Author
@@ -16,7 +17,6 @@ from .models import CombinedBookDetails
 from .models import BookBorrowingReview
 from django.db import connection
 
-from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -119,15 +119,34 @@ def borrowing_list(request):
     borrowings = Borrowing.objects.all()
     return render(request, 'webapp/borrowing_list.html', {'borrowings': borrowings})
 
+#def add_borrowing(request):
+#    if request.method == 'POST':
+#        form = BorrowingForm(request.POST)
+#        if form.is_valid():
+#            form.save()
+#            return redirect('borrowing_list')
+#    else:
+#        form = BorrowingForm()
+#    return render(request, 'webapp/add_borrowing.html', {'form': form})
+
 def add_borrowing(request):
     if request.method == 'POST':
         form = BorrowingForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('borrowing_list')
+            try:
+                with transaction.atomic():
+                    form.save()
+                    return redirect('borrowing_list')  # Redirect to the borrowing list page
+            except OperationalError as e:
+                # Check if the error is because of the borrowing limit
+                if 'Borrowing limit exceeded' in str(e):
+                    form.add_error(None, 'You have exceeded your borrowing limit for the week.')
+                else:
+                    form.add_error(None, 'An unexpected error occurred. Please try again later.')
     else:
         form = BorrowingForm()
     return render(request, 'webapp/add_borrowing.html', {'form': form})
+
 
 def review_list(request):
     reviews = Review.objects.all()
@@ -176,5 +195,6 @@ def return_book(request, borrowing_id):
             cursor.execute("UPDATE webapp_borrowing SET return_date = NOW() WHERE id = %s", [borrowing_id])
         return redirect('borrowing_list')  # Make sure 'borrowing_list' is the correct name for your URL pattern
 
-
+# TRIGGERS
+    
 
