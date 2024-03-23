@@ -197,4 +197,18 @@ def return_book(request, borrowing_id):
 
 # TRIGGERS
     
+# FUNCTIONS
+    
+def book_list(request):
+    # Your existing logic to fetch books
+    books = Book.objects.all()  # Assuming Book is your model class
+
+    # Enhance book objects with average rating
+    with connection.cursor() as cursor:
+        for book in books:
+            cursor.execute("SELECT GetAverageRating(%s)", [book.id])
+            result = cursor.fetchone()
+            book.avg_rating = result[0] if result else 0
+
+    return render(request, 'webapp/book_list.html', {'books': books})
 
