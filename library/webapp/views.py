@@ -14,6 +14,9 @@ from .forms import Publisher
 from .forms import PublisherForm
 from .models import CombinedBookDetails
 from .models import BookBorrowingReview
+from django.db import connection
+
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -164,4 +167,14 @@ def book_borrowing_review_list(request):
     books_reviews = BookBorrowingReview.objects.all()
     #print(str(books_reviews.query))
     return render(request, 'webapp/borrowers_and_reviews.html', {'books_reviews': books_reviews})
+
+# PROCEDURES
+
+def return_book(request, borrowing_id):
+    if request.method == 'GET':
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE webapp_borrowing SET return_date = NOW() WHERE id = %s", [borrowing_id])
+        return redirect('borrowing_list')  # Make sure 'borrowing_list' is the correct name for your URL pattern
+
+
 

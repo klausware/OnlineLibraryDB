@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    #TABLES AND CRUD OPS
     path('', views.book_list, name='book_list'),  # Assuming you have this from the listing functionality
     path('book/new', views.book_create, name='book_create'),  # Add this line for the create functionality
     path('book/edit/<int:pk>', views.book_edit, name='book_edit'),
@@ -17,7 +18,11 @@ urlpatterns = [
     path('reviews/add/', views.add_review, name='add_review'),
     path('publishers/', views.publisher_list, name='publisher_list'),
     path('publishers/add/', views.add_publisher, name='add_publisher'),
+    #VIEWS
     path('combined-books/', views.combined_book_list, name='combined_book_list'),
     path('borrowers-and-reviews/', views.book_borrowing_review_list, name='borrowers_and_reviews'),
+    #PROCEDURES
+    path('return-book/<int:borrowing_id>/', views.return_book, name='return_book'),
+
 
 ]

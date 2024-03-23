@@ -26,6 +26,7 @@
             <th>Member Name</th>
             <th>Borrow Date</th>
             <th>Return Date</th>
+            <th>Action</th>  <!-- New column for actions -->
         </tr>
         {% for borrowing in borrowings %}
         <tr>
@@ -33,11 +34,25 @@
             <td>{{ borrowing.book.title }}</td>
             <td>{{ borrowing.member.name }}</td>
             <td>{{ borrowing.borrow_date|date:"Y-m-d" }}</td>
-            <td>{% if borrowing.return_date %}{{ borrowing.return_date|date:"Y-m-d" }}{% else %}Currently Checked Out{% endif %}</td>
+            <td>
+                {% if borrowing.return_date %}
+                    {{ borrowing.return_date|date:"Y-m-d" }}
+                {% else %}
+                    Currently Checked Out
+                    <!-- Add a link to mark as returned -->
+                    <a href="{% url 'return_book' borrowing.id %}" onclick="return confirm('Mark this book as returned?');">Mark as Returned</a>
+                {% endif %}
+            </td>
+            <td>
+                {% if not borrowing.return_date %}
+                    <!-- Only show this if the book has not been returned -->
+                    <a href="{% url 'return_book' borrowing.id %}" onclick="return confirm('Are you sure you want to mark this book as returned?');">Return Book</a>
+                {% endif %}
+            </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="5">No borrowings available.</td>
+            <td colspan="6">No borrowings available.</td>
         </tr>
         {% endfor %}
     </table>
