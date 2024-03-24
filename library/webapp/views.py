@@ -1,6 +1,7 @@
 #from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db import OperationalError, transaction
+from django.db import OperationalError, transaction, connection
+from datetime import date
 from .models import Book
 from .forms import BookForm
 from .models import Author
@@ -15,7 +16,6 @@ from .forms import Publisher
 from .forms import PublisherForm
 from .models import CombinedBookDetails
 from .models import BookBorrowingReview
-from django.db import connection
 
 
 # Create your views here.
@@ -93,6 +93,7 @@ def member_list(request):
     members = Member.objects.all()
     return render(request, 'webapp/member_list.html', {'members': members})
 
+"""
 def add_member(request):
     if request.method == 'POST':
         form = MemberForm(request.POST)
@@ -102,6 +103,27 @@ def add_member(request):
     else:
         form = MemberForm()
     return render(request, 'webapp/add_member.html', {'form': form})
+"""
+# Using Stored Procedure
+def add_member(request):
+    if request.method == 'POST':
+        form = MemberForm(request.POST)
+        if form.is_valid():
+            # Extract data from form
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            join_date = date.today()  # Assuming you want to use the current date
+
+            # Call stored procedure
+            with connection.cursor() as cursor:
+                cursor.callproc('register_new_member', [name, email, join_date])
+
+            return redirect('member_list')  # Adjust as needed
+    else:
+        form = MemberForm()
+
+    return render(request, 'webapp/add_member.html', {'form': form})
+
 
 def edit_member(request, pk):
     member = get_object_or_404(Member, pk=pk)
@@ -129,6 +151,7 @@ def borrowing_list(request):
 #        form = BorrowingForm()
 #    return render(request, 'webapp/add_borrowing.html', {'form': form})
 
+# With Borrowing Limit Exceeded Trigger
 def add_borrowing(request):
     if request.method == 'POST':
         form = BorrowingForm(request.POST)

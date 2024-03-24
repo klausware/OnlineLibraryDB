@@ -20,6 +20,7 @@ class AuthorForm(forms.ModelForm):
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
+        exclude = ['library_card_number']
         fields = ['name', 'email', 'library_card_number']  
 
 class BorrowingForm(ModelForm):
