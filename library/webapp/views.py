@@ -1,6 +1,7 @@
 #from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import OperationalError, transaction, connection
+from datetime import datetime
 from datetime import date
 from .models import Book
 from .forms import BookForm
@@ -89,9 +90,45 @@ def add_author(request):
         form = AuthorForm()  # An empty, unbound form
     return render(request, 'webapp/add_author.html', {'form': form})
 
+
+def get_total_books_borrowed(member_id, start_date, end_date):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT total_books_borrowed_by_member(%s, %s, %s)", [member_id, start_date, end_date])
+        result = cursor.fetchone()
+    return result[0] if result else 0
+
+
 def member_list(request):
+    # Fetching start_date and end_date from GET parameters
+    start_date_str = request.GET.get('start_date')
+    end_date_str = request.GET.get('end_date')
+
+    # Convert from 'yyyy-mm-dd' to 'yyyy-mm-dd' if the data is present
+    if start_date_str:
+        try:
+            # Trying to match the format from the URL.
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').strftime('%Y-%m-%d')
+        except ValueError:
+            # If there is a ValueError, you can set a default start date or handle it differently
+            start_date = '1900-01-01'  # default start date
+    else:
+        start_date = '1900-01-01'  # default start date
+
+    if end_date_str:
+        try:
+            # Same as for start date, but for end date.
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%d').strftime('%Y-%m-%d')
+        except ValueError:
+            # Default to today's date if there is an error
+            end_date = datetime.today().strftime('%Y-%m-%d')  # default end date
+    else:
+        end_date = datetime.today().strftime('%Y-%m-%d')  # default end date
+
+
     members = Member.objects.all()
-    return render(request, 'webapp/member_list.html', {'members': members})
+    for member in members:
+       member.total_books_borrowed = get_total_books_borrowed(member.id, start_date, end_date)         
+    return render(request, 'webapp/member_list.html', {'members': members, 'start_date': start_date, 'end_date': end_date})
 
 """
 def add_member(request):
@@ -235,3 +272,13 @@ def book_list(request):
 
     return render(request, 'webapp/book_list.html', {'books': books})
 
+def member_borrowing_stats(request, member_id):
+    # Set these as needed; could be from the request, fixed, or otherwise determined
+    start_date = '2022-01-01'
+    end_date = '2022-12-31'
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT total_books_borrowed_by_member(%s, %s, %s)", [member_id, start_date, end_date])
+        total_borrowed = cursor.fetchone()[0]
+
+    return render(request, 'webapp/member_borrowing_stats.html', {'total_borrowed': total_borrowed})
