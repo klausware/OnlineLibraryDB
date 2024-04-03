@@ -17,6 +17,7 @@ from .forms import Publisher
 from .forms import PublisherForm
 from .models import CombinedBookDetails
 from .models import BookBorrowingReview
+from .models import BorrowingArchive
 
 
 # Create your views here.
@@ -256,6 +257,10 @@ def return_book(request, borrowing_id):
         return redirect('borrowing_list')  # Make sure 'borrowing_list' is the correct name for your URL pattern
 
 # TRIGGERS
+    
+def archived_borrowings(request):
+    archives = BorrowingArchive.objects.all()
+    return render(request, 'webapp/archived_borrowings.html', {'archives': archives})
     
 # FUNCTIONS
     

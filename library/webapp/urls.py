@@ -23,6 +23,8 @@ urlpatterns = [
     path('borrowers-and-reviews/', views.book_borrowing_review_list, name='borrowers_and_reviews'),
     #PROCEDURES
     path('return-book/<int:borrowing_id>/', views.return_book, name='return_book'),
+    #TRIGGERS
+    path('borrowings/archived/', views.archived_borrowings, name='archived_borrowings'),
 
 
 ]

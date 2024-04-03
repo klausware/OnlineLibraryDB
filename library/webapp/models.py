@@ -91,3 +91,14 @@ class BookBorrowingReview(models.Model):
     class Meta:
         managed = False  # Ensures Django doesn't try to create a table for this model.
         db_table = 'recentborrowings'  # The name of your SQL view.
+
+# TRIGGERS
+        
+class BorrowingArchive(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    borrow_date = models.DateField()
+    return_date = models.DateField()
+    
+    class Meta:
+        db_table = 'webapp_borrowing_archive'  # Ensure this matches your archive table name in the database
