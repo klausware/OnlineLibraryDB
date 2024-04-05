@@ -31,7 +31,7 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, default=1, related_name='books')  # Changed from author_id
     isbn = models.CharField(max_length=20)
-    publisher_id = models.IntegerField()  # Consider updating this similarly in the future
+    publisher_id = models.IntegerField()  
     publication_date = models.DateField()
     genres = models.ManyToManyField(Genre, related_name='books')
 
@@ -78,7 +78,7 @@ class CombinedBookDetails(models.Model):
 
     class Meta:
         managed = False  # No database table creation or deletion operations will be performed for this model.
-        db_table = 'CombinedBookDetails'  # The name of the view in your database
+        db_table = 'CombinedBookDetails'  
 
 
 class BookBorrowingReview(models.Model):
@@ -90,7 +90,7 @@ class BookBorrowingReview(models.Model):
 
     class Meta:
         managed = False  # Ensures Django doesn't try to create a table for this model.
-        db_table = 'recentborrowings'  # The name of your SQL view.
+        db_table = 'recentborrowings'  
 
 # TRIGGERS
         
@@ -101,4 +101,4 @@ class BorrowingArchive(models.Model):
     return_date = models.DateField()
     
     class Meta:
-        db_table = 'webapp_borrowing_archive'  # Ensure this matches your archive table name in the database
+        db_table = 'webapp_borrowing_archive'  # Ensure this matches the archive table name in the database

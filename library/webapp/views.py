@@ -24,6 +24,7 @@ from .forms import EditReturnDateForm
 # Create your views here.
 
 # Read operation: List all books
+'''
 def book_list(request):
     books = Book.objects.all()
 
@@ -46,7 +47,7 @@ def book_list(request):
         books = books.filter(publication_date__gte=pub_date_after)
 
     return render(request, 'webapp/book_list.html', {'books': books})
-
+'''
 # Create operation: Add a new book
 def book_create(request):
     if request.method == 'POST':
@@ -111,7 +112,7 @@ def member_list(request):
             # Trying to match the format from the URL.
             start_date = datetime.strptime(start_date_str, '%Y-%m-%d').strftime('%Y-%m-%d')
         except ValueError:
-            # If there is a ValueError, you can set a default start date or handle it differently
+            # If there is a ValueError, then set a default start date or handle it differently
             start_date = '1900-01-01'  # default start date
     else:
         start_date = '1900-01-01'  # default start date
@@ -151,13 +152,13 @@ def add_member(request):
             # Extract data from form
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
-            join_date = date.today()  # Assuming you want to use the current date
+            join_date = date.today()  
 
             # Call stored procedure
             with connection.cursor() as cursor:
                 cursor.callproc('register_new_member', [name, email, join_date])
 
-            return redirect('member_list')  # Adjust as needed
+            return redirect('member_list')  
     else:
         form = MemberForm()
 
@@ -266,7 +267,7 @@ def return_book(request, borrowing_id):
     if request.method == 'GET':
         with connection.cursor() as cursor:
             cursor.execute("UPDATE webapp_borrowing SET return_date = NOW() WHERE id = %s", [borrowing_id])
-        return redirect('borrowing_list')  # Make sure 'borrowing_list' is the correct name for your URL pattern
+        return redirect('borrowing_list')  
 
 # TRIGGERS
     
@@ -277,8 +278,26 @@ def archived_borrowings(request):
 # FUNCTIONS
     
 def book_list(request):
-    # Your existing logic to fetch books
-    books = Book.objects.all()  # Assuming Book is your model class
+    # Existing logic to fetch books
+    books = Book.objects.all() 
+
+    # Search by Author
+    author_name = request.GET.get('author_name')
+    if author_name:
+        books = books.filter(author__name__icontains=author_name)
+
+    # Search by Title
+    book_title = request.GET.get('book_title')
+    if book_title:
+        books = books.filter(title__icontains=book_title)
+
+    # Filter by Publication Date
+    pub_date_before = request.GET.get('pub_date_before')
+    pub_date_after = request.GET.get('pub_date_after')
+    if pub_date_before:
+        books = books.filter(publication_date__lte=pub_date_before)
+    if pub_date_after:
+        books = books.filter(publication_date__gte=pub_date_after)
 
     # Enhance book objects with average rating
     with connection.cursor() as cursor:
