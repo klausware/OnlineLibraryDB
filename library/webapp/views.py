@@ -18,6 +18,7 @@ from .forms import PublisherForm
 from .models import CombinedBookDetails
 from .models import BookBorrowingReview
 from .models import BorrowingArchive
+from .forms import EditReturnDateForm
 
 
 # Create your views here.
@@ -247,6 +248,17 @@ def book_borrowing_review_list(request):
     books_reviews = BookBorrowingReview.objects.all()
     #print(str(books_reviews.query))
     return render(request, 'webapp/borrowers_and_reviews.html', {'books_reviews': books_reviews})
+
+def edit_return_date(request, borrowing_id):
+    borrowing = get_object_or_404(Borrowing, pk=borrowing_id)
+    if request.method == 'POST':
+        form = EditReturnDateForm(request.POST, instance=borrowing)
+        if form.is_valid():
+            form.save()
+            return redirect('borrowing_list')
+    else:
+        form = EditReturnDateForm(instance=borrowing)
+    return render(request, 'webapp/edit_return_date.html', {'form': form})
 
 # PROCEDURES
 

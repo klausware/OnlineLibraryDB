@@ -44,3 +44,8 @@ class PublisherForm(ModelForm):
     class Meta:
         model = Publisher
         fields = ['name', 'address', 'website']
+
+class EditReturnDateForm(forms.ModelForm):
+    class Meta:
+        model = Borrowing
+        fields = ['return_date']
