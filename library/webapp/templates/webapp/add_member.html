@@ -5,6 +5,8 @@
 </head>
 <body>
     <h2>Add New Member</h2>
+    <!-- Add italicized text for the description -->
+    <p style="font-style: italic;">Description: This page uses a PROCEDURE (2/2) to auto-generate a user's library card id.</p>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
