@@ -1,7 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Member List</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
         table {
             width: 100%;
@@ -21,7 +23,7 @@
     <h2>Member List (3/7)</h2>
     <!-- Add italicized text for the description -->
     <p style="font-style: italic;">Description: This page uses a FUNCTION (2/2) to return the total number of books borrowed by each user and allows to filter check-outs by date range.</p>
-    <a href="{% url 'add_member' %}">Add New Member</a>
+    <a href="{% url 'add_member' %}" class="button-style">Add New Member</a>
 
     <!-- Date Filter Form -->
     <form method="get" action="{% url 'member_list' %}">
@@ -60,6 +62,6 @@
         {% endfor %}
     </table>
     <br>
-    <a href="{% url 'book_list' %}">Back to Book List</a>
+    <a href="{% url 'book_list' %}" class="button-style">Back to Book List</a>
 </body>
 </html>

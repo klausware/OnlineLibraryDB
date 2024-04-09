@@ -1,7 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Book List</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
         /* Add your CSS styling here */
         table {
@@ -22,15 +24,15 @@
     <h2>Book List (Table 1/7)</h2>
     <!-- Add italicized text for the description -->
     <p style="font-style: italic;">Description: This page uses a FUNCTION (1/2) to calculate a book's average rating.</p>
-    <a href="{% url 'book_create' %}">Add New Book</a>
-    <a href="{% url 'author_list' %}">Authors List</a>
-    <a href="{% url 'member_list' %}">Members List</a>
-    <a href="{% url 'borrowing_list' %}">Borrowing List</a>
-    <a href="{% url 'review_list' %}">Reviews</a>
-    <a href="{% url 'publisher_list' %}">Publisher List</a>
-    <a href="{% url 'combined_book_list' %}">| Combined Book List (View) </a>
-    <a href="{% url 'borrowers_and_reviews' %}">| Borrowers Reviews (View) </a>
-    <a href="{% url 'reports' %}">Reports</a>
+    <a href="{% url 'book_create' %}" class="button-style">Add New Book</a>
+    <a href="{% url 'author_list' %}" class="button-style">Authors List</a>
+    <a href="{% url 'member_list' %}" class="button-style">Members List</a>
+    <a href="{% url 'borrowing_list' %}" class="button-style">Borrowing List</a>
+    <a href="{% url 'review_list' %}" class="button-style">Reviews</a>
+    <a href="{% url 'publisher_list' %}" class="button-style">Publisher List</a>
+    <a href="{% url 'combined_book_list' %}" class="button-style">Combined Book List (View) </a>
+    <a href="{% url 'borrowers_and_reviews' %}" class="button-style">Borrowers Reviews (View) </a>
+    <a href="{% url 'reports' %}" class="button-style">Reports</a>
     <table>
         <tr>
             <th>Title</th>

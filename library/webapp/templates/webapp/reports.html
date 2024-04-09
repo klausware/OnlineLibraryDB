@@ -1,8 +1,10 @@
 {% load my_filters %}
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Reports</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
         table, th, td {
             border: 1px solid black;
@@ -24,9 +26,9 @@
     <!-- Add italicized text for the description -->
     <p style="font-style: italic;">Description: This page uses a aggregate sql functions such as MAX, MIN, and AVG to generate reports.</p>
     <div class="report-actions">
-        <a href="?max_books_borrowed" class="report-link">Get maximum number of books borrowed by a single member</a>
-        <a href="?total_checked_out" class="report-link">Get total number of books currently checked out</a>
-        <a href="?avg_borrow_duration" class="report-link">Get average borrowing duration for all books</a>
+        <a href="?max_books_borrowed" class="button-style">Get maximum number of books borrowed by a single member</a>
+        <a href="?total_checked_out" class="button-style">Get total number of books currently checked out</a>
+        <a href="?avg_borrow_duration" class="button-style">Get average borrowing duration for all books</a>
         <!-- Add other links for additional reports -->
     </div>
 
@@ -52,6 +54,6 @@
     {% else %}
     <p>No data available. Please select a report.</p>
     {% endif %}
-    <a href="{% url 'book_list' %}">Back to Book List</a>
+    <a href="{% url 'book_list' %}" class="button-style">Back to Book List</a>
 </body>
 </html>

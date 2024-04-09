@@ -1,7 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Review List</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
         table {
             width: 100%;
@@ -43,8 +45,8 @@
         </tr>
         {% endfor %}
     </table>
-    <a href="{% url 'add_review' %}">Add New Review</a>
+    <a href="{% url 'add_review' %}" class="button-style">Add New Review</a>
     <br>
-    <a href="{% url 'book_list' %}">Back to Book List</a>
+    <a href="{% url 'book_list' %}" class="button-style">Back to Book List</a>
 </body>
 </html>
