@@ -5,18 +5,35 @@
     <title>Book List</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
-        /* Add your CSS styling here */
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        body {
+        background-color: #f8f8f8; /* Off-white background for the page */
         }
-        th, td {
+
+        table, th, td {
             border: 1px solid black;
+            border-collapse: collapse;
             padding: 8px;
             text-align: left;
         }
+
         th {
-            background-color: #f2f2f2;
+            background-color: #f2f2f2; /* Keeps your header cells a light grey */
+        }
+
+        td {
+            background-color: #e7f4fd; /* Light blue for non-header cells */
+        }
+
+        .report-link {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>

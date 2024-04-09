@@ -11,3 +11,10 @@
     border: none;
     cursor: pointer;
 }
+body {
+    background-color: #f8f8f8; /* An off-white background for the page */
+}
+
+td {
+    background-color: #e7f4fd; /* A light blue background for table cells */
+}
