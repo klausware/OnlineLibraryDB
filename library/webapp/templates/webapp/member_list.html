@@ -43,7 +43,8 @@
             <th>Email</th>
             <th>Library Card Number</th>
             <th>Join Date</th>
-            <th>Total Books Borrowed</th> 
+            <th>Total Books Borrowed</th>
+            <th>Delete</th> 
         </tr>
         {% for member in members %}
         <tr>
@@ -54,6 +55,12 @@
             <td>{{ member.join_date|date:"Y-m-d" }}</td>
             <td>{{ member.total_books_borrowed }}</td>
             <td><a href="{% url 'edit_member' member.id %}">Edit</a></td>
+            <td>
+                <form action="{% url 'delete_member' member.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete" onclick="return confirm('Are you sure?');" class="button-style">
+                </form>
+            </td>            
         </tr>
         {% empty %}
         <tr>

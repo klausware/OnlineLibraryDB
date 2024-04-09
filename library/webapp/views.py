@@ -193,6 +193,12 @@ def edit_member(request, pk):
         form = MemberForm(instance=member)
     return render(request, 'webapp/edit_member.html', {'form': form})
 
+def delete_member(request, member_id):
+    member = get_object_or_404(Member, id=member_id)
+    if request.method == 'POST':
+        member.delete()
+        return redirect('member_list')
+    return render(request, 'webapp/delete_member.html', {'member': member})
 
 def borrowing_list(request):
     borrowings = Borrowing.objects.all()
