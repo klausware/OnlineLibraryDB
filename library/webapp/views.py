@@ -20,7 +20,6 @@ from .models import BookBorrowingReview
 from .models import BorrowingArchive
 from .forms import EditReturnDateForm
 
-
 # Create your views here.
 
 # Read operation: List all books
@@ -318,3 +317,66 @@ def member_borrowing_stats(request, member_id):
         total_borrowed = cursor.fetchone()[0]
 
     return render(request, 'webapp/member_borrowing_stats.html', {'total_borrowed': total_borrowed})
+
+#Report
+
+def get_report_results(query):
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        column_names = [col[0] for col in cursor.description]
+        return column_names, [dict(zip(column_names, row)) for row in cursor.fetchall()]
+
+def reports(request):
+    context = {}
+
+    if 'max_books_borrowed' in request.GET:
+        # Set headers and results for max_books_borrowed report
+        context['report_headers'] = ['Member ID', 'Member Name', 'Total Books Borrowed']
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT b.member_id, m.name, COUNT(*) AS total_borrows
+                FROM webapp_borrowing b
+                INNER JOIN webapp_member m ON b.member_id = m.id
+                GROUP BY b.member_id, m.name
+                ORDER BY total_borrows DESC
+                LIMIT 1
+            """)
+            max_books_borrowed = cursor.fetchone()
+            if max_books_borrowed:
+                context['report_results'] = [{
+                    'Member ID': max_books_borrowed[0],
+                    'Member Name': max_books_borrowed[1],
+                    'Total Books Borrowed': max_books_borrowed[2],
+                }]
+    elif 'total_checked_out' in request.GET:
+        # Set headers and results for total_checked_out report
+        context['report_headers'] = ['Count']
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT COUNT(*)
+                FROM webapp_borrowing
+                WHERE return_date IS NULL
+            """)
+            total_checked_out = cursor.fetchone()
+            if total_checked_out:
+                context['report_results'] = [{
+                    'Count': total_checked_out[0],
+                }]
+    elif 'avg_borrow_duration' in request.GET:
+        # Set headers and results for avg_borrow_duration report
+        context['report_headers'] = ['Avg Borrow Duration']
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT AVG(DATEDIFF(return_date, borrow_date))
+                FROM webapp_borrowing
+                WHERE return_date IS NOT NULL
+            """)
+            avg_borrow_duration = cursor.fetchone()
+            if avg_borrow_duration:
+                context['report_results'] = [{
+                    'Avg Borrow Duration': avg_borrow_duration[0],
+                }]
+    
+    return render(request, 'webapp/reports.html', context)
+
+
