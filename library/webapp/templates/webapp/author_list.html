@@ -30,6 +30,9 @@
             <th>Authored Books</th>
             <th>Created At</th>
             <th>Updated At</th>
+            <th>Edit</th>
+            <th>Delete</th>
+
         </tr>
         {% for author in authors %}
         <tr>
@@ -43,6 +46,13 @@
                 {% empty %}
                     No books available.
                 {% endfor %}
+                <td><a href="{% url 'edit_author' author.id %}" class="button-style">Edit</a></td>
+                <td>
+                    <form action="{% url 'delete_author' author.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="button-style" onclick="return confirm('Are you sure?');">Delete</button>
+                    </form>
+                </td>
             </td>
             <td>{{ author.created_at|date:"Y-m-d, H:i" }}</td>
             <td>{{ author.updated_at|date:"Y-m-d, H:i" }}</td>

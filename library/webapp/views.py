@@ -92,6 +92,24 @@ def add_author(request):
         form = AuthorForm()  # An empty, unbound form
     return render(request, 'webapp/add_author.html', {'form': form})
 
+def edit_author(request, author_id):
+    author = get_object_or_404(Author, id=author_id)
+    if request.method == 'POST':
+        form = AuthorForm(request.POST, instance=author)
+        if form.is_valid():
+            form.save()
+            return redirect('author_list')
+    else:
+        form = AuthorForm(instance=author)
+    return render(request, 'webapp/edit_author.html', {'form': form, 'author': author})
+
+def delete_author(request, author_id):
+    author = get_object_or_404(Author, id=author_id)
+    if request.method == 'POST':
+        author.delete()
+        return redirect('author_list')
+    return render(request, 'webapp/confirm_delete_author.html', {'author': author})
+
 
 def get_total_books_borrowed(member_id, start_date, end_date):
     with connection.cursor() as cursor:
