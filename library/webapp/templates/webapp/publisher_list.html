@@ -27,6 +27,8 @@
             <th>Name</th>
             <th>Address</th>
             <th>Website</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         {% for publisher in publishers %}
         <tr>
@@ -34,6 +36,13 @@
             <td>{{ publisher.name }}</td>
             <td>{{ publisher.address }}</td>
             <td><a href="{{ publisher.website }}">{{ publisher.website }}</a></td>
+            <td><a href="{% url 'edit_publisher' publisher.id %}" class="button-style">Edit</a></td>
+            <td>
+                <form action="{% url 'delete_publisher' publisher.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete" onclick="return confirm('Are you sure?');" class="button-style">
+                </form>
+            </td>
         </tr>
         {% empty %}
         <tr>

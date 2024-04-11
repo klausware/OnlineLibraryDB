@@ -1,0 +1,13 @@
+<html>
+<head>
+    <title>Edit Publisher</title>
+</head>
+<body>
+    <h2>Edit Publisher</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Publisher</button>
+    </form>
+</body>
+</html>

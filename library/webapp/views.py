@@ -290,6 +290,25 @@ def add_publisher(request):
         form = PublisherForm()
     return render(request, 'webapp/add_publisher.html', {'form': form})
 
+def edit_publisher(request, publisher_id):
+    publisher = get_object_or_404(Publisher, id=publisher_id)
+    if request.method == 'POST':
+        form = PublisherForm(request.POST, instance=publisher)
+        if form.is_valid():
+            form.save()
+            return redirect('publisher_list')
+    else:
+        form = PublisherForm(instance=publisher)
+    return render(request, 'webapp/edit_publisher.html', {'form': form})
+
+def delete_publisher(request, publisher_id):
+    publisher = get_object_or_404(Publisher, id=publisher_id)
+    if request.method == 'POST':
+        publisher.delete()
+        return redirect('publisher_list')
+    return render(request, 'webapp/confirm_delete_publisher.html', {'publisher': publisher})
+
+
 # VIEWS
 
 def combined_book_list(request):
