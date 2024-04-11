@@ -28,6 +28,7 @@ urlpatterns = [
     path('publishers/edit/<int:publisher_id>/', views.edit_publisher, name='edit_publisher'),
     path('publishers/delete/<int:publisher_id>/', views.delete_publisher, name='delete_publisher'),
     path('borrowings/archived/', views.archived_borrowings, name='archived_borrowings'),
+    path('status/', views.status_list, name='status_list'),
     #VIEWS
     path('combined-books/', views.combined_book_list, name='combined_book_list'),
     path('borrowers-and-reviews/', views.book_borrowing_review_list, name='borrowers_and_reviews'),

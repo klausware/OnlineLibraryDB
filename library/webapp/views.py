@@ -19,6 +19,7 @@ from .models import CombinedBookDetails
 from .models import BookBorrowingReview
 from .models import BorrowingArchive
 from .forms import EditReturnDateForm
+from .models import Status
 
 # Create your views here.
 
@@ -308,6 +309,10 @@ def delete_publisher(request, publisher_id):
         return redirect('publisher_list')
     return render(request, 'webapp/confirm_delete_publisher.html', {'publisher': publisher})
 
+def status_list(request):
+    status_list = Status.objects.all()
+    return render(request, 'webapp/status_list.html', {'status_list': status_list})
+
 
 # VIEWS
 
@@ -329,6 +334,8 @@ def edit_return_date(request, borrowing_id):
     else:
         form = EditReturnDateForm(instance=borrowing)
     return render(request, 'webapp/edit_return_date.html', {'form': form})
+
+
 
 # PROCEDURES
 
