@@ -44,6 +44,7 @@
             <th>Library Card Number</th>
             <th>Join Date</th>
             <th>Total Books Borrowed</th>
+            <th>Edit</th> 
             <th>Delete</th> 
         </tr>
         {% for member in members %}
@@ -54,7 +55,7 @@
             <td>{{ member.library_card_number }}</td>
             <td>{{ member.join_date|date:"Y-m-d" }}</td>
             <td>{{ member.total_books_borrowed }}</td>
-            <td><a href="{% url 'edit_member' member.id %}">Edit</a></td>
+            <td><a href="{% url 'edit_member' member.id %}" class="button-style">Edit</a></td>
             <td>
                 <form action="{% url 'delete_member' member.id %}" method="post">
                     {% csrf_token %}

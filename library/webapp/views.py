@@ -317,7 +317,6 @@ def combined_book_list(request):
 
 def book_borrowing_review_list(request):
     books_reviews = BookBorrowingReview.objects.all()
-    #print(str(books_reviews.query))
     return render(request, 'webapp/borrowers_and_reviews.html', {'books_reviews': books_reviews})
 
 def edit_return_date(request, borrowing_id):

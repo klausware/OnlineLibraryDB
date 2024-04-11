@@ -59,6 +59,8 @@
             <th>Publication Date</th>
             <th>Genres</th>
             <th>Avg. Rating</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         {% for book in books %}
         <tr>
@@ -74,8 +76,8 @@
                 {% endfor %}
             </td>
             <td>{{ book.avg_rating }}</td>
-            <td><a href="{% url 'book_edit' book.pk %}">Edit</a></td>
-            <td><a href="{% url 'book_delete' book.pk %}" onclick="return confirm('Are you sure?');">Delete</a></td>
+            <td><a href="{% url 'book_edit' book.pk %}" class="button-style">Edit</a></td>
+            <td><a href="{% url 'book_delete' book.pk %}" onclick="return confirm('Are you sure?');" class="button-style">Delete</a></td>
         </tr>
         {% empty %}
         <tr>
