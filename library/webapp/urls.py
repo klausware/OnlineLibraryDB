@@ -18,6 +18,7 @@ urlpatterns = [
     path('members/delete/<int:member_id>/', views.delete_member, name='delete_member'),
     path('borrowings/', views.borrowing_list, name='borrowing_list'),
     path('borrowings/add/', views.add_borrowing, name='add_borrowing'),
+    path('borrowing/delete/<int:borrowing_id>/', views.delete_borrowing, name='delete_borrowing'),
     path('reviews/', views.review_list, name='review_list'),
     path('reviews/add/', views.add_review, name='add_review'),
     path('publishers/', views.publisher_list, name='publisher_list'),

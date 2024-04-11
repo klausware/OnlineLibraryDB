@@ -30,7 +30,8 @@
             <th>Member Name</th>
             <th>Borrow Date</th>
             <th>Return Date</th>
-            <th>Action</th>  <!-- Column for actions -->
+            <th>Action</th> 
+            <th>Delete</th>
         </tr>
         {% for borrowing in borrowings %}
         <tr>
@@ -54,6 +55,13 @@
                     <a href="{% url 'edit_return_date' borrowing.id %}">Edit</a>
                 {% endif %}
             </td>
+            <td>
+                <form action="{% url 'delete_borrowing' borrowing.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete" onclick="return confirm('Are you sure?');" class="button-style">
+                </form>
+            </td>
+            
         </tr>
         {% empty %}
         <tr>

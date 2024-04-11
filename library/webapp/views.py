@@ -204,6 +204,14 @@ def borrowing_list(request):
     borrowings = Borrowing.objects.all()
     return render(request, 'webapp/borrowing_list.html', {'borrowings': borrowings})
 
+def delete_borrowing(request, borrowing_id):
+    borrowing = get_object_or_404(Borrowing, id=borrowing_id)
+    if request.method == 'POST':
+        borrowing.delete()
+        return redirect('borrowing_list')
+    return render(request, 'webapp/delete_borrowing.html', {'borrowing': borrowing})
+
+
 #def add_borrowing(request):
 #    if request.method == 'POST':
 #        form = BorrowingForm(request.POST)
@@ -215,6 +223,7 @@ def borrowing_list(request):
 #    return render(request, 'webapp/add_borrowing.html', {'form': form})
 
 # With Borrowing Limit Exceeded Trigger
+
 def add_borrowing(request):
     if request.method == 'POST':
         form = BorrowingForm(request.POST)
