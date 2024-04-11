@@ -29,6 +29,8 @@
             <th>Rating</th>
             <th>Text</th>
             <th>Date</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         {% for review in reviews %}
         <tr>
@@ -38,6 +40,13 @@
             <td>{{ review.rating }}</td>
             <td>{{ review.text }}</td>
             <td>{{ review.created_at|date:"Y-m-d H:i" }}</td>
+            <td><a href="{% url 'edit_review' review.id %}" class="button-style">Edit</a></td>
+            <td>
+                <form action="{% url 'delete_review' review.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete" onclick="return confirm('Are you sure?');" class="button-style">
+                </form>
+            </td>
         </tr>
         {% empty %}
         <tr>

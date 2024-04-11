@@ -1,0 +1,13 @@
+<html>
+<head>
+    <title>Edit Review</title>
+</head>
+<body>
+    <h2>Edit Review</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Review</button>
+    </form>
+</body>
+</html>

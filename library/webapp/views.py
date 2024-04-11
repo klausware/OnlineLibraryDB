@@ -257,6 +257,25 @@ def add_review(request):
         form = ReviewForm()
     return render(request, 'webapp/add_review.html', {'form': form})
 
+def edit_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('review_list')
+    else:
+        form = ReviewForm(instance=review)
+    return render(request, 'webapp/edit_review.html', {'form': form, 'review': review})
+
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('review_list')
+    return render(request, 'webapp/delete_review.html', {'review': review})
+
+
 def publisher_list(request):
     publishers = Publisher.objects.all()
     return render(request, 'webapp/publisher_list.html', {'publishers': publishers})

@@ -21,6 +21,8 @@ urlpatterns = [
     path('borrowing/delete/<int:borrowing_id>/', views.delete_borrowing, name='delete_borrowing'),
     path('reviews/', views.review_list, name='review_list'),
     path('reviews/add/', views.add_review, name='add_review'),
+    path('review/edit/<int:review_id>/', views.edit_review, name='edit_review'),
+    path('review/delete/<int:review_id>/', views.delete_review, name='delete_review'),
     path('publishers/', views.publisher_list, name='publisher_list'),
     path('publishers/add/', views.add_publisher, name='add_publisher'),
     #VIEWS
