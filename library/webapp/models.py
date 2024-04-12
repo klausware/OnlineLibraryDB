@@ -67,7 +67,7 @@ class Publisher(models.Model):
         return self.name
 
 class Status(models.Model):
-    title = models.ForeignKey('Book', on_delete=models.CASCADE)  # Assuming a Book model exists
+    title = models.ForeignKey('Book', on_delete=models.CASCADE)  
     status = models.CharField(
         max_length=11, 
         choices=[('available', 'Available'), ('unavailable', 'Unavailable')],
