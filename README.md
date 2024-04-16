@@ -50,6 +50,18 @@ With this application, an admin can:
             3. end_date - The end of the date range for the query.
         2. And it returns an integer representing the total number of books borrowed by the specified member within the specified date range.
 
+# Installation Steps
+```
+git clone git@github.com:klausware/OnlineLibraryDB.git
+cd OnlineLibraryDB
+pip3 install virtualenv
+python3 -m venv env
+. env/bin/activate
+pip3 install -r requirements.txt
+python3 manage.py runserver
+http://127.0.0.1:8000/
+```
+
 # Diagrams
 ## Updated ER Diagram
 ![UPDATED ERD](./images/ERD-OnlineLibraryDB-UPDATED.png)
