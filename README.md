@@ -50,21 +50,9 @@ With this application, an admin can:
             3. end_date - The end of the date range for the query.
         2. And it returns an integer representing the total number of books borrowed by the specified member within the specified date range.
 
-# Installation Steps
-```
-git clone git@github.com:klausware/OnlineLibraryDB.git
-mysqladmin create OnlineLibraryDB
-mysql OnlineLibraryDB < OnlineLibraryDB.sql
-```
-
 # Diagrams
 ## Updated ER Diagram
 ![UPDATED ERD](./images/ERD-OnlineLibraryDB-UPDATED.png)
 
 ## Original ER Diagram
 ![ORIGINAL ERD](./images/ERD-OnlineLibraryDB-ORIGINAL.png)
-
-
-
-To restore, clone to
-/Users/$USER/Documents/nyu/database-principals/project/library-management-frontend
